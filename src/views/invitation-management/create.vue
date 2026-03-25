@@ -437,6 +437,11 @@ export default defineComponent({
           delete submitData.invitationRuleSetting;
         }
         
+        // 将home_bg_pic数组转换为JSON字符串，与login_form处理方式一致
+        if (submitData.home_bg_pic !== undefined) {
+          submitData.home_bg_pic = JSON.stringify(submitData.home_bg_pic);
+        }
+        
         const res: any = await baseService.post(url, submitData);
         if (res.code === '00000') {
           ElMessage.success('基础设置保存成功');
@@ -467,6 +472,11 @@ export default defineComponent({
         if (submitData.invitationRuleSetting !== undefined) {
           submitData.invitation_rule_setting = submitData.invitationRuleSetting;
           delete submitData.invitationRuleSetting;
+        }
+        
+        // 将home_bg_pic数组转换为JSON字符串，与login_form处理方式一致
+        if (submitData.home_bg_pic !== undefined) {
+          submitData.home_bg_pic = JSON.stringify(submitData.home_bg_pic);
         }
         
         const res: any = await baseService.post(url, submitData);
@@ -535,6 +545,11 @@ export default defineComponent({
           delete submitData.invitationRuleSetting;
         }
         
+        // 将home_bg_pic数组转换为JSON字符串，与login_form处理方式一致
+        if (submitData.home_bg_pic !== undefined) {
+          submitData.home_bg_pic = JSON.stringify(submitData.home_bg_pic);
+        }
+        
         const res: any = await baseService.post(url, submitData);
         if (res.code === '00000') {
           ElMessage.success('登录页面设置保存成功');
@@ -567,6 +582,11 @@ export default defineComponent({
         if (submitData.invitationRuleSetting !== undefined) {
           submitData.invitation_rule_setting = submitData.invitationRuleSetting;
           delete submitData.invitationRuleSetting;
+        }
+        
+        // 将home_bg_pic数组转换为JSON字符串，与login_form处理方式一致
+        if (submitData.home_bg_pic !== undefined) {
+          submitData.home_bg_pic = JSON.stringify(submitData.home_bg_pic);
         }
         
         const res: any = await baseService.post(url, submitData);
