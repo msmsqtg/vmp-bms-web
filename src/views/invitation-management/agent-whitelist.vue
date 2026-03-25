@@ -427,6 +427,7 @@ export default defineComponent({
       const formData = new FormData();
       formData.append('file', this.importForm.file);
       formData.append('impId', String(this.activityId));
+      formData.append('type', '3');
 
       baseService.post(`${import.meta.env.VITE_APP_API}/whitelist/import`, formData, {
         'Content-Type': 'multipart/form-data'
