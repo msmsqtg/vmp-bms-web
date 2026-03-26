@@ -152,26 +152,24 @@ export default defineComponent({
           multipleHelpSwitch: '2',
           multipleHelpMsg: '助力失败，每位用户仅可为除自己外一名用户助力一次！',
           rules: {
-            headPic: '',
-            mainPic: '',
-            buttonPicOn: '',
-            buttonPicOff: '',
-            bottomOver: '',
-            formTitle: '请填写相关信息以完成开团',
-            formDesc: '请如实填写信息，以便我们及时与您联系',
-            formItems: [
-              { type: '姓名', title: '姓名1', required: true },
-              { type: '身份证后四位', title: '身份证后四位', required: false }
-            ],
-            formButtonBg: '',
-            helpFormTitle: '请填写相关信息以完成助力',
-            helpFormDesc: '请如实填写信息，以便我们及时与您联系',
-            helpFormItems: [
-              { type: '姓名', title: '姓名2', required: true }
-            ],
-            checkName: 'false',
-            needGroupInfo: 'true',
-            needHelpInfo: 'true'
+            up: {
+              nendInfo: 1,
+              title: '请填写相关信息以完成开团',
+              content: '请如实填写信息，以便我们及时与您联系',
+              formData: [
+                { name: '姓名', type: 'name', title: '姓名', input_name: 'name', selected: 0, check: 0 },
+                { name: '身份证后四位', type: 'idcard', title: '身份证后四位', input_name: 'idcard', selected: 0, check: 0 }
+              ]
+            },
+            help: {
+              nendInfo: 1,
+              title: '请填写相关信息以完成助力',
+              content: '请如实填写信息，以便我们及时与您联系',
+              formData: [
+                { name: '姓名', type: 'name', title: '姓名', input_name: 'name', selected: 0, check: 0 }
+              ],
+              checkName: 2
+            }
           },
           validityPeriod: '',
           participationNum: '',
@@ -595,29 +593,21 @@ export default defineComponent({
         try {
           const rules = typeof data.rules === 'string' ? JSON.parse(data.rules) : data.rules;
           if (rules.up) {
-            this.form.groupSettings.rules.needGroupInfo = rules.up.nendInfo === 1 ? 'true' : 'false';
-            this.form.groupSettings.rules.formTitle = rules.up.title;
-            this.form.groupSettings.rules.formDesc = rules.up.content;
+            this.form.groupSettings.rules.up.nendInfo = rules.up.nendInfo;
+            this.form.groupSettings.rules.up.title = rules.up.title;
+            this.form.groupSettings.rules.up.content = rules.up.content;
             if (rules.up.formData && rules.up.formData.length > 0) {
-              this.form.groupSettings.rules.formItems = rules.up.formData.map((item: any) => ({
-                type: item.type,
-                title: item.title,
-                required: item.selected === 1
-              }));
+              this.form.groupSettings.rules.up.formData = rules.up.formData;
             }
           }
           if (rules.help) {
-            this.form.groupSettings.rules.needHelpInfo = rules.help.nendInfo === 1 ? 'true' : 'false';
-            this.form.groupSettings.rules.helpFormTitle = rules.help.title;
-            this.form.groupSettings.rules.helpFormDesc = rules.help.content;
+            this.form.groupSettings.rules.help.nendInfo = rules.help.nendInfo;
+            this.form.groupSettings.rules.help.title = rules.help.title;
+            this.form.groupSettings.rules.help.content = rules.help.content;
             if (rules.help.formData && rules.help.formData.length > 0) {
-              this.form.groupSettings.rules.helpFormItems = rules.help.formData.map((item: any) => ({
-                type: item.type,
-                title: item.title,
-                required: item.selected === 1
-              }));
+              this.form.groupSettings.rules.help.formData = rules.help.formData;
             }
-            this.form.groupSettings.rules.checkName = rules.help.checkName === 1 ? 'true' : 'false';
+            this.form.groupSettings.rules.help.checkName = rules.help.checkName;
           }
         } catch (error) {
           console.error('解析 rules 字段失败:', error);
@@ -741,26 +731,17 @@ export default defineComponent({
         multipleHelpMsg: this.form.groupSettings.multipleHelpMsg,
         rules: {
           up: {
-            nendInfo: this.form.groupSettings.rules.needGroupInfo === 'true' ? 1 : 0,
-            title: this.form.groupSettings.rules.formTitle,
-            content: this.form.groupSettings.rules.formDesc,
-            formData: []
+            nendInfo: this.form.groupSettings.rules.up.nendInfo,
+            title: this.form.groupSettings.rules.up.title,
+            content: this.form.groupSettings.rules.up.content,
+            formData: this.form.groupSettings.rules.up.formData.filter(item => item.selected === 1).map(item => ({ ...item, check: 1 }))
           },
           help: {
-            nendInfo: this.form.groupSettings.rules.needHelpInfo === 'true' ? 1 : 0,
-            title: this.form.groupSettings.rules.helpFormTitle,
-            content: this.form.groupSettings.rules.helpFormDesc,
-            formData: [
-              {
-                name: "姓名",
-                type: "name",
-                title: "姓名",
-                input_name: "name",
-                selected: 1,
-                check: 0
-              }
-            ],
-            checkName: this.form.groupSettings.rules.checkName === 'true' ? 1 : 2
+            nendInfo: this.form.groupSettings.rules.help.nendInfo,
+            title: this.form.groupSettings.rules.help.title,
+            content: this.form.groupSettings.rules.help.content,
+            formData: this.form.groupSettings.rules.help.formData.filter(item => item.selected === 1).map(item => ({ ...item, check: 1 })),
+            checkName: this.form.groupSettings.rules.help.checkName
           }
         },
         orderType: 0,
